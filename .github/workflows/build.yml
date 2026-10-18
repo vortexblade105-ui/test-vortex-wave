@@ -17,14 +17,20 @@ jobs:
       with:
         node-version: 18
 
+    - name: Install pnpm
+      uses: pnpm/action-setup@v2
+      with:
+        version: 8
+        run_install: false
+
     - name: Install dependencies & Build Vite App
       run: |
-        npm install
-        npm run build
+        pnpm install
+        pnpm run build
 
     - name: Init Capacitor and Add iOS
       run: |
-        npm install @capacitor/core @capacitor/cli @capacitor/ios
+        pnpm add @capacitor/core @capacitor/cli @capacitor/ios
         npx cap init "VortexWave" "com.vortex.app" --web-dir dist
         npx cap add ios
 
