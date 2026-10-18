@@ -23,10 +23,11 @@ jobs:
         version: 8
         run_install: false
 
-    - name: Install dependencies & Build Vite App
-      run: |
-        pnpm install
-        pnpm run build
+    - name: Install dependencies
+      run: pnpm install --no-frozen-lockfile
+
+    - name: Build Vite App Direct
+      run: npx vite build
 
     - name: Init Capacitor and Add iOS
       run: |
