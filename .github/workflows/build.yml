@@ -19,6 +19,22 @@ jobs:
 
     - name: Install dependencies & Build Vite App
       run: |
-        cd artifacts/mockup-sandbox
         npm install
         npm run build
+
+    - name: Init Capacitor and Add iOS
+      run: |
+        npm install @capacitor/core @capacitor/cli @capacitor/ios
+        npx cap init "VortexWave" "com.vortex.app" --web-dir dist
+        npx cap add ios
+
+    - name: Build iOS App via Xcode
+      run: |
+        cd ios/App
+        xcodebuild -project App.xcodeproj -scheme App -sdk iphonesimulator -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -derivedDataPath build
+
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ios-build-output
+        path: ios/App/build/
